@@ -11,7 +11,8 @@ export default () => {
     const res: any = await Login(values);
     if (res.errCode === 10000) {
       sessionStorage.setItem('token', res.data.token);
-      navigate('/home');
+      sessionStorage.setItem('routes', JSON.stringify(res.data.menu));
+      navigate('/');
     }
     console.log(res);
   };
@@ -20,12 +21,16 @@ export default () => {
     console.log('Failed:', errorInfo);
   };
   return (
-    <div className="site-card-border-less-wrapper">
-      <Card
-        title="登录"
-        bordered={false}
-        style={{ width: 500, margin: 'auto' }}
-      >
+    <div
+      className="site-card-border-less-wrapper"
+      style={{ background: '#c4c4c4' }}
+    >
+      <img
+        src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+        alt=""
+        className="images"
+      />
+      <Card title="登录" bordered={false} className="crad">
         <Form
           name="basic"
           labelCol={{ span: 5 }}

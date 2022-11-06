@@ -4,11 +4,33 @@
   height: 100vh;
 } */
 
-.ant-card {
+/* .ant-card {
   box-shadow: 0 0 8px 3px rgb(0 0 0 / 3%);
   position: fixed;
   top: 50%;
   left: 50%;
   margin-left: -225px !important; 
   margin-top: -170px !important;
+} */
+.site-card-border-less-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 50%;
+  height: 300px;
+  margin: 10% auto 0;
+  display: flex;
+}
+.crad {
+  width: 50%;
+  height: 100%;
+  border: 1px solid #c4c4c4;
+}
+.images {
+  width: 50%;
+  height: 100%;
+}
+.ant-card-head-title{
+  text-align: center;
 }

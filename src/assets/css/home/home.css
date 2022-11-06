@@ -1,0 +1,81 @@
+.ant-layout.ant-layout-has-sider {
+  position: fixed;
+  top: 49px;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+}
+.ant-layout-sider {
+  background-color: #f4f4f4;
+}
+.ant-layout.ant-layout-has-sider > .ant-layout,
+.ant-layout.ant-layout-has-sider > .ant-layout-content {
+  padding: 24px;
+  background-color: #ffff;
+}
+.ant-layout-header {
+  height: 49px !important;
+  border: 1px solid #e5e5e5;
+  background-color: #f4f4f4;
+  line-height: 0 !important;
+  padding: 0 25px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.headerLeft {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.headerLeftImg {
+  margin-right: 30px;
+}
+.headerLeftHome {
+  display: flex;
+  align-items: center;
+}
+.show {
+  color: #4180f3;
+}
+.name {
+  color: #767676;
+}
+.headerRight {
+  height: 100%;
+  line-height: 49px;
+  display: flex;
+  align-items: center;
+}
+
+.setup {
+  margin-right: 80px;
+  display: flex;
+  align-items: center;
+}
+.goLogin {
+  display: flex;
+  align-items: center;
+}
+.lis {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+  border-left: 3px solid #ffffff;
+}
+.list {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+  color: #4180f3;
+  border-left: 3px solid #4180f3;
+}
+.list > ::before {
+  color: #4180f3 !important;
+}
+.spanme {
+  display: block;
+  height: 30px !important;
+}

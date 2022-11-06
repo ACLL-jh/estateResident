@@ -24,19 +24,66 @@ const BeforeEach: FC<Props> = ({ meta, children }) => {
 
 const routes = [
   {
-    path: '/',
-    meta: { title: '登录', isLogin: true },
-    component: lazy(() => import('../pages/login/login')),
-  },
-  {
     path: '/login',
     meta: { title: '登录', isLogin: true },
     component: lazy(() => import('../pages/login/login')),
   },
   {
-    path: '/home',
-    meta: { title: '新闻', isLogin: true },
+    path: '/',
+    meta: { title: '首页' },
     component: lazy(() => import('../pages/home/home')),
+    children: [
+      {
+        path: 'resident',
+        meta: {},
+        component: lazy(() => import('../pages/resident/resident')),
+      },
+      {
+        path: 'index',
+        meta: { title: '首页' },
+        component: lazy(() => import('../pages/index/index')),
+      },
+      {
+        path: 'fee',
+        meta: {},
+        component: lazy(() => import('../pages/fee/fee')),
+      },
+      {
+        path: 'userinfo',
+        meta: {},
+        component: lazy(() => import('../pages/userinfo/userinfo')),
+      },
+      {
+        path: 'repairs',
+        meta: {},
+        component: lazy(() => import('../pages/repairs/repairs')),
+      },
+      {
+        path: 'questions',
+        meta: {},
+        component: lazy(() => import('../pages/questions/questions')),
+      },
+      {
+        path: 'staffs',
+        meta: {},
+        component: lazy(() => import('../pages/staffs/staffs')),
+      },
+      {
+        path: 'news',
+        meta: {},
+        component: lazy(() => import('../pages/news/news')),
+      },
+      {
+        path: 'stores',
+        meta: {},
+        component: lazy(() => import('../pages/stores/stores')),
+      },
+      {
+        path: 'advertisement',
+        meta: {},
+        component: lazy(() => import('../pages/advertisement/advertisement')),
+      },
+    ],
   },
 ];
 

@@ -11,10 +11,10 @@ interface Props {
 }
 
 const BeforeEach: FC<Props> = ({ meta, children }) => {
-  if (meta) {
+  /*  if (meta) {
     document.title = meta.title;
-  }
-
+  } */
+  document.title = '智慧社区';
   if (!sessionStorage.getItem('token') && !meta.isLogin) {
     return <Navigate to="/login" />;
   } else {
@@ -25,24 +25,25 @@ const BeforeEach: FC<Props> = ({ meta, children }) => {
 const routes = [
   {
     path: '/login',
-    meta: { title: '登录', isLogin: true },
+    meta: { isLogin: true },
     component: lazy(() => import('../pages/login/login')),
   },
   {
     path: '/',
-    meta: { title: '首页' },
+    meta: {},
     component: lazy(() => import('../pages/home/home')),
     children: [
+      {
+        path: 'index',
+        meta: {},
+        component: lazy(() => import('../pages/index/index')),
+      },
       {
         path: 'resident',
         meta: {},
         component: lazy(() => import('../pages/resident/resident')),
       },
-      {
-        path: 'index',
-        meta: { title: '首页' },
-        component: lazy(() => import('../pages/index/index')),
-      },
+
       {
         path: 'fee',
         meta: {},

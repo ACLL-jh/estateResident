@@ -9,7 +9,7 @@ import { Breadcrumb, Layout, Menu } from 'antd';
 import './../../assets/css/home/home.css';
 import { useNavigate, Outlet } from 'react-router-dom';
 
-const Home: React.FC = () => {
-  return <div></div>;
+const Home: React.FC<any> = ({ title }) => {
+  return <div className="title">居民管理</div>;
 };
 export default Home;

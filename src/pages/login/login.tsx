@@ -12,7 +12,7 @@ export default () => {
     if (res.errCode === 10000) {
       sessionStorage.setItem('token', res.data.token);
       sessionStorage.setItem('routes', JSON.stringify(res.data.menu));
-      navigate('/');
+      navigate('/index');
     }
     console.log(res);
   };

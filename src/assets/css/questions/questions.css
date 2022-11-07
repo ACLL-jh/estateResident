@@ -1,0 +1,15 @@
+.ant-input {
+  width: 120px;
+}
+.ant-form-item {
+  margin-bottom: 10px !important;
+}
+.del {
+  color: #ff0000;
+}
+.ant-table-pagination-right {
+  justify-content: center !important;
+}
+.quest {
+  height: 100%;
+}

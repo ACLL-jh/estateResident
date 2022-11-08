@@ -84,6 +84,28 @@ const routes = [
         meta: {},
         component: lazy(() => import('../pages/advertisement/advertisement')),
       },
+      {
+        path: 'building',
+        meta: {},
+        component: lazy(() => import('../pages/building/building')),
+      },
+      {
+        path: 'house',
+        meta: {},
+        component: lazy(() => import('../pages/house/house')),
+      },
+      {
+        path: 'administratorrole',
+        meta: {},
+        component: lazy(
+          () => import('../pages/administratorrole/administratorrole')
+        ),
+      },
+      {
+        path: 'administrator',
+        meta: {},
+        component: lazy(() => import('../pages/administrator/administrator')),
+      },
     ],
   },
 ];

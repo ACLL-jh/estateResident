@@ -20,7 +20,7 @@ const Home: React.FC = () => {
   );
   const NavHome = (text: string) => {
     return () => {
-      if (window.location.href.split('/')[3] === 'index') {
+      if (window.location.href.split('/')[3] == 'index') {
         setisShow(false);
       } else {
         setisShow(true);
@@ -46,10 +46,8 @@ const Home: React.FC = () => {
         }
         return item;
       });
-      // console.log(socr);
-      sessionStorage.setItem('routes', JSON.stringify(socr));
       setroutes(socr);
-      // console.log(routes);
+      sessionStorage.setItem('routes', JSON.stringify(socr));
       sessionStorage.setItem('url', ites.url);
       navigate(ites.url);
     };
@@ -61,50 +59,64 @@ const Home: React.FC = () => {
       setisShow(false);
     }
   });
+
   useEffect(() => {
     navigate(urs);
   }, []);
+
   const [urlList, setUrl] = useState<any>([
     'building',
     'house',
     'administrator',
     'administratorrole',
   ]);
+  let url: any = sessionStorage.getItem('url');
+
+  const [menuName, setMenuName] = useState<any>(sessionStorage.getItem('url'));
+
+  const topMenu: any = routes.map((item: any) => {
+    if (item.postion == 'top') {
+      return {
+        label: (
+          <div style={menuName === item.url ? { color: '#2981ff' } : {}}>
+            <i
+              style={
+                menuName === item.url
+                  ? { color: '#2981ff', padding: '0 7px' }
+                  : { padding: '0 7px' }
+              }
+              className={`iconfont ${item.ico}`}
+            ></i>
+            <span>{item.name}</span>
+          </div>
+        ),
+        key: item.url,
+      };
+    }
+  });
+  useEffect(() => {
+    setMenuName(url);
+  }, [topMenu]);
+  const items: MenuProps['items'] = topMenu;
+
   const onClick: MenuProps['onClick'] = ({ key }) => {
-    console.log(
-      document
-        .querySelectorAll('.ant-dropdown-menu-title-content')
-        .forEach((item: any, index: number) => {
-          if (item.innerText === key) {
-            item.style.color = '#4180f3';
-          } else {
-            item.style.color = '#000';
-          }
-        })
-    );
+    let socr: any = routes.map((item: any) => {
+      if (item.url === key) {
+        item.checked = 1;
+      } else {
+        item.checked = 0;
+      }
+      return item;
+    });
+    setroutes(socr);
+    sessionStorage.setItem('routes', JSON.stringify(socr));
+    sessionStorage.setItem('url', key);
+    navigate(key);
   };
-  const items: MenuProps['items'] = [
-    {
-      label: '楼栋管理',
-      key: 'building',
-    },
-    {
-      label: '房间管理',
-      key: 'house',
-    },
-    {
-      label: '管理员管理',
-      key: 'administrator',
-    },
-    {
-      label: '角色管理',
-      key: 'administratorrole',
-    },
-  ];
   return (
     <div className="home">
       <Layout>
-        <Header className='heaeer'>
+        <Header className="heaeer">
           <div className="headerLeft">
             <div className="headerLeftImg">
               <img
@@ -133,7 +145,21 @@ const Home: React.FC = () => {
           <div className="headerRight">
             {
               <Dropdown menu={{ items, onClick }} arrow>
-                <div className="setup">
+                <div
+                  className={
+                    menuName == '/administrator'
+                      ? 'setups'
+                      : menuName == '/house'
+                      ? 'setups'
+                      : menuName == '/house'
+                      ? 'setups'
+                      : menuName == '/building'
+                      ? 'setups'
+                      : menuName == '/administratorrole'
+                      ? 'setups'
+                      : 'setup'
+                  }
+                >
                   <span className="iconfont icon-shezhi"></span>
                   <span style={{ marginLeft: '5px' }}>设置 </span>
                 </div>

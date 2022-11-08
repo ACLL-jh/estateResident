@@ -1,0 +1,71 @@
+.ant-steps-navigation .ant-steps-item.ant-steps-item-active:before {
+  display: none !important;
+}
+.ant-steps-item-finish .ant-steps-item-icon {
+  border-color: #67c23a;
+  border: 3px solid #67c23a;
+  text-align: center;
+  line-height: 18px;
+  font-size: 12px;
+  width: 22px;
+  height: 22px;
+}
+.ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-icon {
+  border-color: #1890ff;
+  border: 3px solid #000000;
+  text-align: center;
+  line-height: 18px;
+  font-size: 12px;
+  width: 22px;
+  height: 22px;
+  background-color: #fff !important;
+}
+.ant-steps-item-wait .ant-steps-item-icon {
+  border-color: #1890ff;
+  border: 3px solid #b7b7b7;
+  text-align: center;
+  line-height: 18px;
+  font-size: 12px;
+  width: 22px;
+  height: 22px;
+  background-color: #fff !important;
+}
+.ant-steps-navigation .ant-steps-item-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  color: #67c23a !important;
+}
+.ant-modal {
+  width: 50% !important;
+}
+.ant-steps {
+  background-color: #f5f7fa !important;
+}
+.ant-modal-footer {
+  display: none;
+}
+.headerModel {
+  display: flex;
+  flex-wrap: wrap;
+}
+.headerModel > div {
+  width: 30%;
+  margin: 10px 0;
+}
+.Modelimg {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0px;
+}
+.Modelimg .images {
+  width: 70px;
+  height: 70px;
+}
+.ant-pagination {
+  text-align: center;
+  margin-top: 10px;
+}

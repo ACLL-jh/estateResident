@@ -1,0 +1,25 @@
+.ant-input {
+  width: 120px;
+}
+.ant-form-item {
+  margin-bottom: 10px !important;
+}
+.del {
+  color: #ff0000;
+}
+.ant-table-pagination-right {
+  justify-content: center !important;
+}
+.quest {
+  height: 100%;
+}
+.TitColo {
+  color: #4180f3;
+  cursor: pointer;
+}
+.ant-card-bordered {
+  border: none !important;
+}
+.ant-card-head-title {
+  color: #4180f3;
+}

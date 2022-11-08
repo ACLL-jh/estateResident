@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import './assets/font/iconfont.css'
+import './assets/font/iconfont.css';
 import 'antd/dist/antd.min.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import zhCN from 'antd/es/locale/zh_CN';
 import Router from './router/index';
 import { ConfigProvider, DatePicker, message } from 'antd';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+
+moment.locale('zh-cn');
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

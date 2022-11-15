@@ -1,7 +1,8 @@
 import React from 'react';
-import { Card, Button, Checkbox, Form, Input } from 'antd';
+import { Card, Button, Checkbox, Form, Input, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './../../assets/css/login/login.css';
+import { UserOutlined, UnlockOutlined } from '@ant-design/icons';
 import { Login } from './../../apis/login/login';
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
@@ -13,6 +14,9 @@ export default () => {
       sessionStorage.setItem('token', res.data.token);
       sessionStorage.setItem('routes', JSON.stringify(res.data.menu));
       navigate('/index');
+      message.success('登录成功');
+    } else {
+      message.error(res.errMsg);
     }
     console.log(res);
   };
@@ -23,46 +27,64 @@ export default () => {
   return (
     <div
       className="site-card-border-less-wrapper"
-      style={{ background: '#c4c4c4' }}
+      style={{ background: '#f7f5f6' }}
     >
-      <img
-        src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-        alt=""
-        className="images"
-      />
-      <Card title="登录" bordered={false} className="crad">
-        <Form
-          name="basic"
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 16 }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
-          <Form.Item
-            label="账号："
-            name="username"
-            rules={[{ required: true, message: '请输入账号 ！' }]}
+      <div className="header">
+        <img
+          src={require('./../../assets/images/loginlog.png')}
+          className="simg"
+          alt=""
+        />
+      </div>
+      <div className="logios">
+        <img
+          src={require('../../assets/images/backlog.jpg')}
+          alt=""
+          className="images"
+        />
+        <div className="logForm">
+          <h2>账号登录</h2>
+          <Form
+            name="basic"
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 16 }}
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
           >
-            <Input />
-          </Form.Item>
+            <Form.Item
+              name="username"
+              rules={[{ required: true, message: '请输入账号 ！' }]}
+            >
+              <Input
+                className="inpu"
+                prefix={<UserOutlined />}
+                placeholder="请输入账号"
+              />
+            </Form.Item>
 
-          <Form.Item
-            label="密码："
-            name="pass"
-            rules={[{ required: true, message: '请输入密码 ！' }]}
-          >
-            <Input.Password />
-          </Form.Item>
-
-          <Form.Item wrapperCol={{ offset: 5, span: 16 }}>
-            <Button type="primary" htmlType="submit">
-              登录
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
+            <Form.Item
+              name="pass"
+              rules={[{ required: true, message: '请输入密码 ！' }]}
+            >
+              <Input.Password
+                className="inpu"
+                prefix={<UnlockOutlined />}
+                placeholder="请输入密码"
+              />
+            </Form.Item>
+            <Form.Item>
+              <div style={{ float: 'right', color: '#3a78dd' }}>忘记密码？</div>
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 5, span: 16 }}>
+              <Button type="primary" htmlType="submit">
+                登录
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };

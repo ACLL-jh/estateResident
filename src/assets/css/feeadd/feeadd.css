@@ -1,0 +1,13 @@
+.addbox{
+  display: flex;
+  justify-content: center;
+}
+  .addform{
+    margin: auto;
+  }
+    .formitem{
+      width: 322px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }

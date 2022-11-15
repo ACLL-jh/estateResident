@@ -1,0 +1,20 @@
+.buiding .buidHeader {
+  width: 100%;
+  border-bottom: 1px solid #dbdbdb;
+}
+.buiding .tree_node {
+  display: flex;
+  justify-content: space-between;
+}
+.buiding .edit {
+  margin: 5px 20px;
+}
+.buiding .node_name {
+  line-height: 40px;
+}
+.buiding .ant-tree-switcher {
+  line-height: 40px;
+}
+.inpu {
+  width: 240px;
+}

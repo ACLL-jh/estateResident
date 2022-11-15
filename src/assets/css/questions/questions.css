@@ -14,3 +14,13 @@
 .quest {
   height: 100%;
 }
+.TitColo {
+  color: #4180f3;
+  cursor: pointer;
+}
+.ant-card-bordered {
+  border: none !important;
+}
+.ant-card-head-title {
+  color: #4180f3;
+}

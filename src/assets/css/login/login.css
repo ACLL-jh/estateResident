@@ -12,7 +12,7 @@
   margin-left: -225px !important; 
   margin-top: -170px !important;
 } */
-.site-card-border-less-wrapper {
+/* .site-card-border-less-wrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -21,16 +21,59 @@
   height: 300px;
   margin: 10% auto 0;
   display: flex;
-}
-.crad {
-  width: 50%;
-  height: 100%;
-  border: 1px solid #c4c4c4;
-}
+} */
 .images {
-  width: 50%;
-  height: 100%;
+  width: 860px;
+  height: 495px;
 }
-.ant-card-head-title{
+.ant-card-head-title {
   text-align: center;
+}
+.logios {
+  width: 100%;
+  height: 535px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.simg {
+  height: 60px;
+}
+.header {
+  width: 100%;
+  height: 60px;
+  background-color: #fff;
+}
+.logForm {
+  width: 485px;
+  height: 495px;
+  background-color: #fff;
+  margin-left: 20px;
+}
+.logForm > h2 {
+  font-weight: 700;
+  width: 100%;
+  text-align: center;
+  margin: 40px 0 20px;
+}
+.ant-form-horizontal .ant-form-item-control {
+  margin: 0 !important;
+}
+.inpu {
+  width: 100%;
+  height: 50px;
+}
+.ant-btn-primary {
+  width: 100%;
+  height: 45px;
+  font-size: 20px;
+}
+.ant-row,
+.ant-row:after,
+.ant-row:before {
+  justify-content: space-evenly;
+}
+.anticon svg {
+  color: #cdcdcd;
+  margin-right: 5px;
 }

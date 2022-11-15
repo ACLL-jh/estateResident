@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import type { PaginationProps } from 'antd';
+import { Pagination, Spin } from 'antd';
 import {
   LaptopOutlined,
   NotificationOutlined,
@@ -35,56 +37,52 @@ import {
 } from '../../apis/questions/questions';
 import moment from 'moment';
 import { rejects } from 'assert';
+import QuestionsDielog from './../../components/questions/questionsDielog';
 const Home: React.FC = () => {
   const [dataSource, setDataSource] = useState<any>([]);
   const { RangePicker } = DatePicker;
+  const [loading, setLoading] = useState(true);
   //table表格展示类型 start
   const columns = [
     {
       title: '问题类型',
-      dataIndex: 'typename',
-      key: 'id',
+      // dataIndex: 'typename',
       render: (record: any) => (
         <Space size="middle">
-          <span onClick={diolog(record)}>{record}1</span>
+          <u onClick={showModal(record)} className="TitColo">
+            {record.typename}
+          </u>
         </Space>
       ),
     },
     {
       title: '问题地址',
       dataIndex: 'address',
-      key: 'id',
     },
     {
       title: '问题描述',
       dataIndex: 'content',
-      key: 'id',
     },
     {
       title: '处理状态',
       dataIndex: 'statename',
-      key: 'id',
     },
     {
       title: '业主名称',
       dataIndex: 'username',
-      key: 'id',
     },
     {
       title: '业主电话',
       dataIndex: 'tel',
-      key: 'id',
     },
     {
       title: '维修日期',
       dataIndex: 'addtime',
-      key: 'id',
     },
     {
       title: '操作',
       dataIndex: 'id',
-      key: 'id',
-      render: (record: any) => (
+      render: (record: number) => (
         <Space size="middle">
           <Button type="primary" danger onClick={DelModel(record)}>
             删除
@@ -100,11 +98,14 @@ const Home: React.FC = () => {
   });
   //投诉列表 start
   const getList = async () => {
+    setLoading(true);
     const res: any = await QuestionsList(params);
     if (res.errCode == '10000') {
       res.data.list.forEach((item: any) => {
         item.addtime = moment(item.addtime).format('YYYY-MM-DD HH:MM');
+        setLoading(false);
       });
+      setCounts(res.data.counts);
       setDataSource(res.data.list);
     }
   };
@@ -115,11 +116,12 @@ const Home: React.FC = () => {
     const res: any = await QuestiontypeList({ page: 1, psize: 1000 });
     if (res.errCode === 10000) {
       setTypes(res.data.list);
-    }   
+    }
   };
   //投诉类型列表 end
   //获取表单值 start
   const onFinish = (values: any) => {
+    setLoading(true);
     if (values.user.beengindate) {
       values.user.begindate = moment(values.user.beengindate[0]).format(
         'YYYY-MM-DD HH:MM'
@@ -130,21 +132,20 @@ const Home: React.FC = () => {
     }
     values.user.page = 1;
     values.user.psize = 10;
-    console.log({ ...params, ...values.user });
-
+    setLoading(false);
     setParams(values.user);
   };
   //获取表单值 end
 
   //获取投诉状态
-
+  const [counts, setCounts] = useState<number>();
   const [getState, setState] = useState<any>([]);
   const getStates = async () => {
     const res: any = await QuestionstateList({ page: 1, psize: 1000 });
     if (res.errCode == '10000') {
+      setLoading(false);
       setState(res.data.list);
     }
-    console.log(res);
   };
   //table表格 复选框 start
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -185,10 +186,10 @@ const Home: React.FC = () => {
         title: '删除该条数据，删除将无法挽回，是否删除？',
         icon: <ExclamationCircleOutlined />,
         async onOk() {
-          console.log('123');
           const res: any = await QuestionsDelete({ id });
           if (res.errCode == '10000') {
             message.success('删除成功！');
+            setLoading(false);
             getList();
           } else {
             message.error(res.errMag);
@@ -207,10 +208,24 @@ const Home: React.FC = () => {
     GettypeList();
     getStates();
   }, []);
-  const diolog = (item: any) => {
+  //分页
+  const coPage = (pages: number, psize: number) => {
+    let page = pages != 0 ? pages : 1;
+    setParams({ ...params, page, psize });
+  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [Modalid, setModalid] = useState(0);
+  const showModal = (model: number) => {
     return () => {
-      console.log(item);
+      setModalid(model);
+      setIsModalOpen(true);
     };
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
   return (
     <div className="quest">
@@ -256,12 +271,33 @@ const Home: React.FC = () => {
             </Button>
           </Form.Item>
         </Form>
-        <Table
-          rowSelection={rowSelection}
-          dataSource={dataSource}
-          columns={columns}
-          rowKey="id"
+        <Spin tip="Loading..." spinning={loading}>
+          <Table
+            rowSelection={rowSelection}
+            dataSource={dataSource}
+            columns={columns}
+            rowKey="id"
+            pagination={false}
+          />
+        </Spin>
+        <Pagination
+          size="small"
+          total={counts}
+          showSizeChanger
+          onChange={coPage}
+          showQuickJumper
+          current={params.page}
         />
+        {isModalOpen ? (
+          <QuestionsDielog
+            isShow={isModalOpen}
+            modelO={Modalid}
+            handleOk={handleOk}
+            handleCancel={handleCancel}
+          ></QuestionsDielog>
+        ) : (
+          ''
+        )}
       </Card>
     </div>
   );

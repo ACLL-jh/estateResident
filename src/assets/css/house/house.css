@@ -1,22 +1,13 @@
-.ant-collapse-header{
-  background-color: #f3f3f3;
-}
-.ant-input{
-  width: 200px;
-}
-.ant-collapse-content>.ant-collapse-content-box{
-  display: flex;
-  height:70px;
-}
-.ant-form-item-label>label{
-  margin-left: 20px;
-  display: flex;
-}
-.datalist{
+.header{
+  font-size: 18px;
   display: flex;
   align-items: center;
-  padding-left: 15px;
   width: 100%;
   height: 50px;
+  padding-left: 20px;
   background-color: #f3f3f3;
+}
+.datas{
+  font-size: 12px;
+  margin-left: 7px;
 }

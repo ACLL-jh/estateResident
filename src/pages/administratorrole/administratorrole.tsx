@@ -78,7 +78,7 @@ const App: React.FC = () => {
         <div className="btn">
           <Button
             type="primary"
-            style={{ backgroundColor: '#67c23a', borderColor: '#67c23a' }}
+            style={{ backgroundColor: '#67c23a', borderColor: '#67c23a',marginRight:10}}
           >
             修改
           </Button>

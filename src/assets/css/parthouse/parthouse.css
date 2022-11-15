@@ -1,0 +1,23 @@
+    .searchfrom {
+      display: flex;
+    }
+      Input {
+        height: 40px;
+        min-width: 40px;
+      }
+      Button {
+        width: 70px;
+        height: 40px;
+        min-width: 40px;
+      }
+  .tablebox {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+      th {
+        padding: 10px 0px;
+        text-align: center;
+        color: #909399;
+        font-weight: bold;
+      }
+

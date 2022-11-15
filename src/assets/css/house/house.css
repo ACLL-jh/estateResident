@@ -1,0 +1,13 @@
+.header{
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  padding-left: 20px;
+  background-color: #f3f3f3;
+}
+.datas{
+  font-size: 12px;
+  margin-left: 7px;
+}

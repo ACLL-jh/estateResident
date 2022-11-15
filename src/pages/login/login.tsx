@@ -16,7 +16,7 @@ export default () => {
       navigate('/index');
       message.success('登录成功');
     } else {
-      message.error(res.errMag);
+      message.error(res.errMsg);
     }
     console.log(res);
   };

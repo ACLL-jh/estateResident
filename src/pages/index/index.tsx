@@ -106,8 +106,9 @@ const Home: React.FC = () => {
 
         </div>
 
-        <div className='hed-lef-bom'>
+        <div>
           <EchartDom></EchartDom>
+
         </div>
 
 

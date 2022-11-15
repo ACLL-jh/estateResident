@@ -5,56 +5,15 @@ import { Select } from 'antd';
 import { Button, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import './../../assets/css/home/home.css';
+import Add from '../../components/userifoadd/add'
 import { Modal, Space } from 'antd';
-import { list, delte, rowdel } from '../../apis/userinfo/userinfo'
+import { list, delte, rowdel, buildinglist } from '../../apis/userinfo/userinfo'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-
 const Home: React.FC = () => {
   // 弹框
-
-
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [loading, setLoading] = useState(false);
-  interface Option {
-    value: string | number;
-    label: string;
-    children?: Option[];
-  }
 
-  const options: Option[] = [
-    {
-      value: 'zhejiang',
-      label: 'Zhejiang',
-      children: [
-        {
-          value: 'hangzhou',
-          label: 'Hangzhou',
-          children: [
-            {
-              value: 'xihu',
-              label: 'West Lake',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      value: 'jiangsu',
-      label: 'Jiangsu',
-      children: [
-        {
-          value: 'nanjing',
-          label: 'Nanjing',
-          children: [
-            {
-              value: 'zhonghuamen',
-              label: 'Zhong Hua Men',
-            },
-          ],
-        },
-      ],
-    },
-  ];
   const onChange = (value: any) => {
     console.log(value);
   };
@@ -83,7 +42,11 @@ const Home: React.FC = () => {
       dataIndex: 'photo',
       render: (photo, id) =>
         <div>
-          <img src={"http://www.eshareedu.cn/estate/upload/" + photo} alt="" style={{ width: '50px', height: '50px' }} />
+          {/* 三元判断 */}
+          {
+            photo ? <img src={"http://www.eshareedu.cn/estate/upload/" + photo} alt="" style={{ width: '50px', height: '50px' }} /> : ''
+          }
+
         </div>
     },
     {
@@ -192,6 +155,7 @@ const Home: React.FC = () => {
   }
   useEffect(() => {
     userlist()
+    buillist()
   }, [])
   // 批量删除
   // async的意思就是将异步转化为同步
@@ -225,20 +189,35 @@ const Home: React.FC = () => {
       console.log(res);
     }
   }
+  // userlist()
+
+
   // 弹框
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
+
   };
 
   const handleOk = () => {
+
     setIsModalOpen(false);
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const [opacity, setopacity] = useState([])
+  // 列表的级联选择器
+  const buillist = async () => {
+    const res: any = await buildinglist({})
+    console.log(res);
+    if (res.errCode === 10000) {
+      setopacity(res.data.list)
+    }
+
+  }
   return (
     <div>
       <div>
@@ -248,7 +227,7 @@ const Home: React.FC = () => {
           layout={"inline"}
         >
           <Form.Item label="楼栋id:">
-            <Cascader options={options} onChange={onChange} placeholder="请选择" />
+            <Cascader options={opacity} style={{ width: "200px" }} onChange={onChange} fieldNames={{ label: 'name', value: 'id', children: 'children' }} placeholder="请选择" />
           </Form.Item>
           <Form.Item label="姓名">
             <Input placeholder="居民姓名" />
@@ -286,14 +265,13 @@ const Home: React.FC = () => {
             </Button>
           </Form.Item><br />
           <Form.Item>
-            <Button type="primary" onClick={showModal}>
+            <Add></Add>
+            {/* <Button type="primary" onClick={showModal}>
               添加
-            </Button>
-            <Modal title="添加居民" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-              <p></p>
-              <p></p>
-              <p></p>
-            </Modal>
+            </Button> */}
+            {/* <Modal title="添加居民" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={700}>
+              <Userifoadd></Userifoadd>
+            </Modal> */}
           </Form.Item>
           <Form.Item>
             <Button type="primary" danger onClick={del}>
@@ -305,9 +283,6 @@ const Home: React.FC = () => {
               批量审核
             </Button>
           </Form.Item>
-          <Button type="primary" onClick={showModal}>
-            Open Modal
-        </Button>
 
           <div>
           </div>

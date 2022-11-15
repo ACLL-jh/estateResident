@@ -65,12 +65,11 @@
   font-size: 22px;
   color: red
 }
-.hed-lef-bom{
+/* .hed-lef-bom{
   width:100%;
   height:300px;
   margin-top:20px;
-  /* background:gray; */
-}
+} */
 .lef-bom-top{
   display: flex;
   justify-content: space-between;

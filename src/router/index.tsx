@@ -46,42 +46,42 @@ const routes = [
 
       {
         path: 'fee',
-        meta: {title: 'estate'},
+        meta: { title: 'estate' },
         component: lazy(() => import('../pages/fee/fee')),
       },
       {
         path: 'userinfo',
-        meta: {title: 'estate'},
+        meta: { title: 'estate' },
         component: lazy(() => import('../pages/userinfo/userinfo')),
       },
       {
         path: 'repairs',
-        meta: {title: 'estate'},
+        meta: { title: 'estate' },
         component: lazy(() => import('../pages/repairs/repairs')),
       },
       {
         path: 'questions',
-        meta: {title: 'estate'},
+        meta: { title: 'estate' },
         component: lazy(() => import('../pages/questions/questions')),
       },
       {
         path: 'staffs',
-        meta: {title: 'estate'},
+        meta: { title: 'estate' },
         component: lazy(() => import('../pages/staffs/staffs')),
       },
       {
         path: 'news',
-        meta: {title: 'estate'},
+        meta: { title: 'estate' },
         component: lazy(() => import('../pages/news/news')),
       },
       {
         path: 'stores',
-        meta: {title: 'estate'},
+        meta: { title: 'estate' },
         component: lazy(() => import('../pages/stores/stores')),
       },
       {
         path: 'advertisement',
-        meta: {title: 'estate'},
+        meta: { title: 'estate' },
         component: lazy(() => import('../pages/advertisement/advertisement')),
       },
       {

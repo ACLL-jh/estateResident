@@ -52,10 +52,17 @@ const EchartDom: React.FC<any> = () => {
       ]
     };
     option && myChart.setOption(option);
+    //   window.addEventListener("resize", () => {
+    //     chartDom.resize();
+    // })
+    window.addEventListener("resize", function () {
+      myChart.resize();
+    });
   }
   useEffect(() => {
     fn()
   }, [])
+
   return (
     <div id='main' style={{ width: '100%', height: '400px' }}>
 

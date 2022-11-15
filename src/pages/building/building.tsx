@@ -227,9 +227,7 @@ const Home: React.FC = () => {
             message.error(res.errMag);
           }
         },
-        onCancel() {
-          message.success('取消删除');
-        },
+        onCancel() {},
       });
     };
   };

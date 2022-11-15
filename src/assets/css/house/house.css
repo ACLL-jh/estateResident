@@ -1,0 +1,22 @@
+.ant-collapse-header{
+  background-color: #f3f3f3;
+}
+.ant-input{
+  width: 200px;
+}
+.ant-collapse-content>.ant-collapse-content-box{
+  display: flex;
+  height:70px;
+}
+.ant-form-item-label>label{
+  margin-left: 20px;
+  display: flex;
+}
+.datalist{
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  width: 100%;
+  height: 50px;
+  background-color: #f3f3f3;
+}

@@ -1,17 +1,111 @@
-.btn>button{
-  margin-left: 7px;
-  border-radius: 4px;
+.top {
+  display: flex;
+  position: relative;
+  padding: 0 10px;
+  height: 50px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #eee;
+}
+.titfont {
+  box-sizing: border-box;
+}
+h3 {
+  font-weight: 400;
+  color: #427ff4;
+  margin-right: 20px;
+  font-size: 16px;
+}
+
+.middle {
+  padding-right: 20px;
+}
+.searchfrom {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ant-row {
+  margin-right: 20px;
+}
+
+Input {
+  height: 40px;
+  line-height: 40px;
+  width: 130px;
+}
+Button {
+  width: 100px;
+  color: #fff;
+  justify-content: center;
+  background-color: #409eff;
+  border-color: #409eff;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  line-height: 40px;
+}
+.buttons {
+  display: flex;
 }
 .ant-input{
-  width: 160px;
+  width: 170px;
 }
-.btn-box{
+.addbut {
+  width: 100px;
+  color: #fff;
+  justify-content: center;
+  background-color: #1890ff;
+  border-color: #1890ff;
   display: flex;
-  margin-top: 30px;
+  align-items: center;
+  height: 33px;
 }
-.ant-modal-header{
+.delbut {
+  margin-left: 20px;
+  width: 100px;
+  color: #fff;
+  justify-content: center;
+  background-color: #f56c6c;
+  border-color: #f56c6c;
+  display: flex;
+  align-items: center;
+  height: 33px;
+}
+.tablebox {
+  margin-top: 20px;
+  font-size: 14px;
   text-align: center;
 }
-.ant-form-item-label>label{
+.ant-table-cell{
+  color: #909399;
+  font-weight: bold;
+}
+.ant-table-cell {
+  width: 300px;
+}
+td {
   text-align: center;
+  padding: 10px, 0px;
+}
+.tabbtns {
+  margin: 0, auto;
+  display: flex;
+}
+.upbtn {
+  margin-left: 10px;
+  color: #fff;
+  background-color: #67c23a;
+  border-color: #67c23a;
+}
+.delbtn {
+  margin-left: 10px;
+  color: #fff;
+  background-color: #f56c6c;
+  border-color: #f56c6c;
+}
+.ant-table-tbody > tr > td,
+.ant-table-thead > tr > th,
+.ant-table tfoot > tr > td,
+.ant-table tfoot > tr > th {
+  padding: 14px;
 }

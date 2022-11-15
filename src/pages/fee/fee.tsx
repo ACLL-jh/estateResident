@@ -1,314 +1,304 @@
-import React, { useState, useEffect, useRef, FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
-  Button,
-  Table,
-  Form,
+  Tabs,
   Input,
-  Modal,
-  message,
-  DatePicker,
-  Space,
-  Select,
-  Cascader,
-  RadioChangeEvent,
-  Radio,
+  Button,
+  Form,
+  Table,
+  notification,
+  Popconfirm,
 } from 'antd';
-import {
-  FeeList,
-  FeeDelete,
-  FeeDeleteall,
-  buildingList,
-  // FeeAdd,
-  Feetype,
-} from '../../apis/fee/fee';
-import './../../assets/css/fee/fee.css';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
-// 横向布局属性
-type LayoutType = Parameters<typeof Form>[0]['layout'];
-const Fee: React.FC = (): JSX.Element => {
-  const [ListData, useFeeList] = useState([]);
-  const [buildings, setbuildings] = useState([]);
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [loading, setLoading] = useState(false);
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-  };
-  //添加弹出框
+import Feesadd from '../../components/feeadd/feeadd';
+import '../../assets/css/fee/fee.css'
+import { FeeList, FeeDelete, FeeDeleteall } from '../../apis/fee/fee';
+const Fee: FC = (): JSX.Element => {
+  const [listarr, setlistarr] = useState([]);
+  const [delall, setdelall] = useState<any>();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [usertype, setUsertype] = useState([]);
+  const onChange = (key: string) => {
+    console.log(key);
+  };
+  const isrefresh = (val: any) => {
+    console.log(val);
+    if (val === true) {
+      getfeelist(null);
+    }
+  };
+  const search = (values: any) => {
+    console.log('Success:', values);
+    getfeelist(values);
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
+
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const handleOk = () => {
-    setIsModalOpen(false);
+  // 删除
+  const confirm = async (e: any) => {
+    // console.log(e);
+    let data = { id: e.id };
+    const dels: any = await FeeDelete(data);
+    // console.log(dels);
+    if (dels.errCode === 10000) {
+      notification.success({
+        message: `删除成功`,
+        description: ``,
+        placement: 'top',
+        duration: 1.5,
+      });
+      getfeelist(null);
+    } else {
+      notification.error({
+        message: `删除失败`,
+        description: ``,
+        placement: 'top',
+        duration: 1.5,
+      });
+    }
   };
-  const handleCancel = () => {
-    setIsModalOpen(false);
+  // 确认删除
+  const confirmall = async () => {
+    // 批删
+    let data = { ids: delall };
+    const res: any = await FeeDeleteall(data);
+    console.log(res);
+    if (res.errCode === 10000) {
+      notification.success({
+        message: `删除成功`,
+        description: ``,
+        placement: 'top',
+        duration: 1.5,
+      });
+      getfeelist(null);
+    } else {
+      notification.error({
+        message: `删除失败`,
+        description: ``,
+        placement: 'top',
+        duration: 1.5,
+      });
+    }
   };
-  //日期选择器
-  const { RangePicker } = DatePicker;
-  // 下拉菜单
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+  const rowSelection = {
+    onChange: (selectedRowKeys: React.Key[]) => {
+      setdelall(selectedRowKeys);
+    },
   };
-  //单选框
-  const [value, setValue] = useState(1);
-  const onChange = (e: RadioChangeEvent) => {
-    console.log('radio checked', e.target.value);
-    setValue(e.target.value);
+  // 关闭弹框
+  const getChildrenValue = (val: any) => {
+    setIsModalOpen(val);
   };
-  //表格
-  const columns: any = [
+  // 表格
+  const columns:any = [
+    {
+      title: 'id',
+      dataIndex: 'id',
+      align:'center'
+    },
     {
       title: '姓名',
       dataIndex: 'userName',
-      key: 'userName',
-      align: 'center',
+      align:'center'
     },
     {
       title: '楼栋名',
       dataIndex: 'building',
-      key: 'building',
-      align: 'center',
+      align:'center'
     },
     {
       title: '房号',
-      dataIndex: 'houseno',
-      align: 'center',
+      dataIndex: 'houseid',
+      align:'center'
     },
     {
       title: '联系方式',
       dataIndex: 'mobile',
-      align: 'center',
+      align:'center'
     },
     {
       title: '缴费类型',
       dataIndex: 'type',
-      align: 'center',
+      align:'center'
     },
     {
       title: '账期',
-      dataIndex: 'mobile',
-      align: 'center',
+      dataIndex: 'begindate',
+      align:'center'
     },
     {
       title: '应缴金额（元）',
       dataIndex: 'price',
-      align: 'center',
+      align:'center'
     },
     {
       title: '导入时间',
       dataIndex: 'addtime',
-      align: 'center',
+      align:'center'
     },
     {
       title: '添加者',
       dataIndex: 'admin',
-      align: 'center',
+      align:'center'
     },
     {
       title: '状态',
       dataIndex: 'stateName',
-      align: 'center',
+      align:'center'
     },
     {
       title: '操作',
-      width: '300px',
-      align: 'center',
-      render: (id: any) => (
-        <div className="btn">
-          <Button type="primary">详情</Button>
-          <Button
-            type="primary"
-            style={{ backgroundColor: '#67c23a', borderColor: '#67c23a' }}
-          >
+      align:'center',
+      render: (row: any) => (
+        <div className="tabbtns">
+          <Button type="primary" className="xqbtn" disabled={true}>
+            详情
+          </Button>
+          <Button type="primary" className="upbtn" disabled={true} >
             修改
           </Button>
-          <Button type="primary" danger onClick={del(id)}>
-            删除
-          </Button>
+          <Popconfirm
+            title="确认删除吗?"
+            onConfirm={() => confirm(row)}
+            okText="确认"
+            cancelText="取消"
+          >
+            <Button type="primary" className="delbtn">
+              删除
+            </Button>
+          </Popconfirm>
         </div>
       ),
     },
   ];
-  //缴费列表
-  const List = async () => {
-    let res: any = await FeeList({});
-    let { list } = res.data;
-    useFeeList(list);
+  const getfeelist = async (params: any) => {
+    const res: any = await FeeList(params);
+    // console.log(res);
     if (res.errCode === 10000) {
-      console.log(res.data.list);
-      setLoading(true);
+      let newarr = res.data.list;
+      for (let i in newarr) {
+        newarr[i].key = newarr[i].id;
+      }
+      setlistarr(newarr);
     }
   };
-  //缴费添加
-  // const add = async () => {
-  //   let res: any = await FeeAdd({});
-  //   console.log(res);
-  // };
-  //缴费删除
-  const del = (listid: any) => {
-    return async () => {
-      confirm({
-        title: '警告',
-        icon: <ExclamationCircleOutlined />,
-        content: '确定删除该条数据吗?',
-        okText: '确定',
-        okType: 'danger',
-        cancelText: '取消',
-        async onOk() {
-          let res: any = await FeeDelete({ id: listid.id });
-          //console.log(res);
-          if (res.errCode === 10000) {
-            // console.log(res);
-            message.success('删除成功');
-          }
-          List();
-        },
-        onCancel() {
-          message.error('取消删除');
-        },
-      });
-    };
-  };
-  //批量删除
-  const { confirm } = Modal;
-  const delall = async () => {
-    confirm({
-      title: '警告',
-      icon: <ExclamationCircleOutlined />,
-      content: '确定批量删除吗?',
-      okText: '确定',
-      okType: 'danger',
-      cancelText: '取消',
-      async onOk() {
-        let res: any = await FeeDeleteall({ ids: selectedRowKeys });
-        // console.log(res);
-        if (res.errCode === 10000) {
-          // console.log(res);
-          message.success('删除成功');
-        }
-        List();
-      },
-      onCancel() {
-        message.error('取消删除');
-      },
-    });
-  };
-  //缴费类型
-  const types = async () => {
-    let res = await Feetype({});
-    // console.log(res);
-    setUsertype(res.data.list);
-  };
-
-  const Buildinglist = async () => {
-    const res = await buildingList({});
-    setbuildings(res.data.list);
-  };
   useEffect(() => {
-    List();
-    types();
-    Buildinglist();
+    getfeelist(null);
   }, []);
+  const [form] = Form.useForm();
   return (
-    <div>
-      <Form layout={'inline'}>
-        <Form.Item label="姓名">
-          <Input placeholder="" />
-        </Form.Item>
-        <Form.Item label="园区名称">
-          <Input placeholder="" />
-        </Form.Item>
-        <Form.Item label="房号">
-          <Input placeholder="" />
-        </Form.Item>
-        <Form.Item label="联系方式">
-          <Input placeholder="" />
-        </Form.Item>
-        <Form.Item label="账期">
-          <Space direction="vertical" size={12}>
-            <RangePicker />
-          </Space>
-        </Form.Item>
-        <Form.Item label="添加人">
-          <Input placeholder="" />
-        </Form.Item>
-        <Form.Item label="流水单号">
-          <Input placeholder="" />
-        </Form.Item>
-        <div className="btn-box">
-          <Form.Item>
-            <Button type="primary">查询</Button>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary">重置</Button>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" onClick={showModal}>
-              添加
-            </Button>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" danger onClick={delall}>
-              批量删除
-            </Button>
-          </Form.Item>
+    <div className="app">
+      <div className="top">
+        <div className="titfont">
+          <h3>缴费列表</h3>
         </div>
-      </Form>
-      {/* 添加弹出框 */}
-      <Modal
-        width={550}
-        title="新增缴费"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <Form 
-          labelAlign="left"
-          labelCol={{ span:4 }}
-          wrapperCol={{ span: 12}}
-          >
-          <Form.Item label="费用类型:">
-            <Select
-              defaultValue="物业费"
-              onChange={handleChange}
-              options={usertype}
-              fieldNames={{ label: 'name', value: 'id' }}
-            />
-          </Form.Item>
-          <Form.Item label="金额:">
-            <Input placeholder=""/>
-          </Form.Item>
-          <Form.Item label="账期:">
-            <RangePicker  />
-          </Form.Item>
-          <Form.Item label="小区:">
-            <Cascader
-              options={buildings}
-              fieldNames={{ label: 'name', value: 'id', children: 'children' }}
-              placeholder="请选择"
-            />
-          </Form.Item>
-          <Form.Item label="缴费房间:">
-            <Radio.Group onChange={onChange} value={value}>
-              <Radio value={1}>全部房间</Radio>
-              <Radio value={2}>部分房间</Radio>
-            </Radio.Group>
-          </Form.Item>
-        </Form>
-      </Modal>
-        <Table
-          rowKey="id"
-          rowSelection={rowSelection}
-          columns={columns}
-          dataSource={ListData}
+      </div>
+      <div className="middle">
+        <Tabs
+          defaultActiveKey="1"
+          onChange={onChange}
+          items={[
+            {
+              label: `已缴费`,
+              key: '1',
+              children: (
+                <div className="search">
+                  <Form
+                    className="searchfrom"
+                    name="noname"
+                    form={form}
+                    colon={false}
+                    onFinish={search}
+                    onFinishFailed={onFinishFailed}
+                  >
+                    <Form.Item label="姓名" name="key">
+                      <Input  />
+                    </Form.Item>
+
+                    <Form.Item label="园区名称" name="buildingid">
+                      <Input />
+                    </Form.Item>
+                    <Form.Item label="房号" name="houseno">
+                      <Input />
+                    </Form.Item>
+                    <Form.Item label="联系方式" name="mibile">
+                      <Input />
+                    </Form.Item>
+                    <Form.Item label="账期" name="begindate">
+                      <Input />
+                    </Form.Item>
+                    <Form.Item label="添加人" name="admin">
+                      <Input />
+                    </Form.Item>
+                    <Form.Item label="流水单号" name="orderno">
+                      <Input />
+                    </Form.Item>
+                    <Form.Item>
+                      <Button type="primary" htmlType="submit">
+                        查询
+                      </Button>
+                    </Form.Item>
+                    <Form.Item>
+                      <Button
+                        type="primary"
+                        onClick={() => {
+                          form.resetFields();
+                        }}
+                      >
+                        重置
+                      </Button>
+                    </Form.Item>
+                    <div className="buttons">
+                    <Button
+                      className="addbut"
+                      type="primary"
+                      htmlType="submit"
+                      onClick={showModal}
+                    >
+                      添加
+                    </Button>
+                    <Popconfirm
+                      title="确认删除吗?"
+                      onConfirm={confirmall}
+                      okText="确认"
+                      cancelText="取消"
+                    >
+                      <Button className="delbut" type="primary" danger htmlType="submit">
+                        批量删除
+                      </Button>
+                    </Popconfirm>
+                  </div>
+                  </Form>
+            
+                  <div className="tablebox">
+                    <Table
+                      rowSelection={{
+                        ...rowSelection,
+                      }}
+                      bordered
+                      pagination={false}
+                      columns={columns}
+                      dataSource={listarr}
+                    />
+                  </div>
+                </div>
+              ),
+            },
+            {
+              label: `未缴费`,
+              key: '2',
+              children: <h1>666</h1>,
+            },
+          ]}
         />
+      </div>
+      <Feesadd
+        isrefresh={isrefresh}
+        showmodal={isModalOpen}
+        getvalue={getChildrenValue}
+      />
     </div>
   );
 };

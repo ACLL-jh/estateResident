@@ -23,4 +23,8 @@ const Feetype = (data: any) => {
 const buildingList = (data: any) => {
   return get('building/list', data);
 };
-export { FeeList,FeeDelete,FeeDeleteall,FeeAdd,Feetype ,buildingList};
+//获取房间列表
+const housesList = (data: any) => {
+  return get('houses/list', data);
+};
+export { FeeList,FeeDelete,FeeDeleteall,FeeAdd,Feetype ,buildingList,housesList};

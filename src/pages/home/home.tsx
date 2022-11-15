@@ -14,6 +14,7 @@ const Home: React.FC = () => {
   const { Header, Sider, Content } = Layout;
   const [isShow, setisShow] = useState<boolean>(false);
   const [rou, setrou] = useState<any>(sessionStorage.getItem('routes'));
+  
   const [routes, setroutes] = useState<any>(JSON.parse(rou));
   const [urs, seturl] = useState<string>(
     sessionStorage.getItem('url') as string

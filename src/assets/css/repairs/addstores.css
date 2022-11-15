@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+}
+.form .left {
+  width: 50%;
+}
+.form .left .time .ant-form-item-control-input-content {
+  display: flex;
+}
+.form .right {
+  margin-left: 30px;
+  width: 50%;
+}
+.ant-form-item-label {
+  text-align: left;
+}

@@ -100,10 +100,7 @@ const Home: React.FC = () => {
   });
   //投诉列表 start
   const getList = async () => {
-    console.log(params);
-
     const res: any = await QuestionsList(params);
-    console.log(res);
     if (res.errCode == '10000') {
       res.data.list.forEach((item: any) => {
         item.addtime = moment(item.addtime).format('YYYY-MM-DD HH:MM');
@@ -118,8 +115,7 @@ const Home: React.FC = () => {
     const res: any = await QuestiontypeList({ page: 1, psize: 1000 });
     if (res.errCode === 10000) {
       setTypes(res.data.list);
-    }
-    console.log(res);
+    }   
   };
   //投诉类型列表 end
   //获取表单值 start

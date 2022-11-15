@@ -84,6 +84,11 @@ const routes = [
         meta: {},
         component: lazy(() => import('../pages/advertisement/advertisement')),
       },
+      {
+        path: 'newsadd',
+        meta: {},
+        component: lazy(() => import('../pages/news/newsAdd')),
+      },
     ],
   },
 ];

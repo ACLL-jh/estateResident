@@ -6,6 +6,7 @@
 }
 .del {
   color: #ff0000;
+  background-color: rgba(245, 234, 234, 0.094);
 }
 .ant-table-pagination-right {
   justify-content: center !important;

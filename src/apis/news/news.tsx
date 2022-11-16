@@ -20,6 +20,9 @@ const newadd=(params:any)=>{
 const newstypeList=(params:any)=>{
   return get('newstype/list',params)
 }
+const listac=(params:any)=>{
+  return get('news/get',params)
+}
 export {
-  Listc,del,delall,repairstype,lista,newadd,newstypeList
+  Listc,del,delall,repairstype,lista,newadd,newstypeList,listac
 };

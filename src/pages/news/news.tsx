@@ -134,6 +134,7 @@ const Home: React.FC = () => {
   // 修改
   const up = (index: any) => {
     return () => {
+      route(`/newsadd?id=${index}`)
       setOpen(true);
     }
   }

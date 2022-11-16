@@ -1,5 +1,6 @@
 import { Button, Modal, Form, Input } from 'antd';
-import { newadd, newstypeList } from '../../apis/news/news';
+import { newadd, newstypeList, listac } from '../../apis/news/news';
+import { imgadd } from '../../apis/upload/upload';
 import type { DatePickerProps, TimePickerProps } from 'antd';
 import { DatePicker, Select, TimePicker, Radio } from 'antd';
 import React, { FC, useEffect, useState } from 'react';
@@ -10,11 +11,12 @@ import '@wangeditor/editor/dist/css/style.css'; // 引入 css
 import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor';
 import { useNavigate } from 'react-router';
+import Routers from '../../router';
+import { useSearchParams } from "react-router-dom"
 import moment from 'moment';
 // From表单时间选择器
 const { Option } = Select;
-
-type PickerType = 'time'; 
+type PickerType = 'time';
 const PickerWithType = ({
   type,
   onChange,
@@ -27,8 +29,12 @@ const PickerWithType = ({
 };
 
 // 函数表达式
-const NewsAdd: FC<any> = (porps: any) => {
+const NewsAdd = (porps: any) => {
+  const [params] = useSearchParams()
+  const [froms] = Form.useForm();
   const route = useNavigate()
+  const [img, setimg] = useState('');
+  const [rado,setrado] =useState<string>('')
   // editor 实例
   const [editor, setEditor] = useState<IDomEditor | null>(null); // TS 语法
   // JS 语法
@@ -37,10 +43,6 @@ const NewsAdd: FC<any> = (porps: any) => {
   const [html, setHtml] = useState('');
 
   // 模拟 ajax 请求，异步设置 html
-  useEffect(() => {
-
-    console.log(html);
-  }, [html]);
   const [imageUrl, seuImageUrl] = useState<any>('');
   // 工具栏配置
   const toolbarConfig: Partial<IToolbarConfig> = {};
@@ -58,44 +60,41 @@ const NewsAdd: FC<any> = (porps: any) => {
         timeout: 5 * 1000, // 5 秒
         // 用户自定义上传图片
         customUpload(file: any, insertFn: any) {
-          const FormData = require("form-data");
-          const data = new FormData();
-          data.append("file", file); // file 即选中的文件 主要就是这个传的参数---看接口要携带什么参数{ key :value}
-          const config = {
-            method: "post",
-            url: 'http://estate.eshareedu.cn/estate/api/upload/add', //上传图片地址
-            headers: {
-              Authorization: sessionStorage.getItem('token')
-            }, //需要加的自己参考接口加
-            data: data
-          };
-          axios(config)
-            .then(function (res: any) {
-              console.log("qz-用户自定义上传图片", res);
-              // const url = "https:// /" + res.data.data.path; //拼接成可浏览的图片地址
-              insertFn(res.data.result); //插入图片，看返回的数据是什么
-            })
-            .catch(function (error: any) {
-              console.log(error);
-            });
+          imgadd(file).then((res: any) => {
+            insertFn(process.env.REACT_APP_BASE_IMAGE + res.data);
+          })
+
         }
       }
     }
   };
+  const lista = async () => {
+    const res: any = await listac({ id: params.get("id") });
+    console.log(res);
+    setHtml(res.data.content)
+    setimg(res.data.picture)
+    console.log(res.data);
+    setrado(res.data.state)
+    froms.setFieldsValue(res.data)
 
+  };
   // 及时销毁 editor ，重要！
   useEffect(() => {
     return () => {
       if (editor == null) return;
       editor.destroy();
+
       setEditor(null);
     };
   }, [editor]);
+  useEffect(() => {
+    lista()
+  }, []);
   // 、、、、、、、、、、、、、、、、、、、、、、、、、、、、
   useEffect(() => {
     storeservicesList();
   }, [porps.def]);
-  const [froms] = Form.useForm();
+
   let arr = [];
   // 确定添加
   const [id, seuId] = useState<number>(0);
@@ -108,13 +107,15 @@ const NewsAdd: FC<any> = (porps: any) => {
     arr = froms.getFieldsValue();
     arr.addtime = moment().format('YYYY-MM-DD HH:mm:ss')
     arr.picture = imageUrl
+    arr.content = html
+    
     console.log(arr);
-
     const res: any = await newadd(arr);
     if (res.errCode === 10000) {
       route('/news')
     }
   };
+
   // 表单
   const [from, setfrom] = useState<any>([]);
   const onFinish = (values: any) => {
@@ -134,6 +135,7 @@ const NewsAdd: FC<any> = (porps: any) => {
   const [handName, seuhandName] = useState<any>('');
   const handleChange = (value: any) => {
     seuhandName(value);
+    setHtml(value)
     console.log(value);
   };
   let [optionps, setoptionps] = useState([]);
@@ -210,12 +212,12 @@ const NewsAdd: FC<any> = (porps: any) => {
             name="picture"
             rules={[{ required: true, message: '请选择图片!' }]}
           >
-            <StoresUpload getImageUrl={getImageUrl}></StoresUpload>
+            <StoresUpload getImageUrl={getImageUrl} img={img}></StoresUpload>
           </Form.Item>
           <Form.Item name="state" label="状态" rules={[{ required: true, message: '请勾选当前状态' }]}>
             <Radio.Group>
-              <Radio value="1">开启</Radio>
-              <Radio value="0">关闭</Radio>
+              <Radio value="1"  >开启</Radio>
+              <Radio value="0" >关闭</Radio>
             </Radio.Group>
           </Form.Item>
           <Form.Item

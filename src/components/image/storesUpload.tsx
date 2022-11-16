@@ -2,7 +2,7 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   const reader = new FileReader();
@@ -22,12 +22,19 @@ const beforeUpload = (file: RcFile) => {
   return isJpgOrPng && isLt2M;
 };
 
-const StoresUpload = (props:any) => {
-  
+const StoresUpload = (props:any) => {  
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
   const [url,seuUrl] = useState<string>()
+  useEffect(()=>{
+    console.log(props.img);
+    
+    if (props.img) {
+      seuUrl('http://estate.eshareedu.cn/estate/upload/'+props.img)
+    }
+  },[props.img])
   const handleChange: UploadProps['onChange'] = (
+      
     info: UploadChangeParam<UploadFile>
   ) => {
     if (info.file.status === 'uploading') {
@@ -43,7 +50,6 @@ const StoresUpload = (props:any) => {
       });
     }
   };
-
   const uploadButton = (
     <div>{loading ? <LoadingOutlined /> : <PlusOutlined />}</div>
   );

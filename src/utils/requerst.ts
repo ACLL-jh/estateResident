@@ -72,8 +72,10 @@ instance.interceptors.response.use(
 const get = (url: string, params?: any): Promise<AxiosResponse<any>> => {
   return instance.get(url, { params });
 };
-const post = (url: string, data?: any): Promise<AxiosResponse<any>> => {
-  return instance.post(url, data);
+const post = (url: string, data?: any,contentType?:any): Promise<AxiosResponse<any>> => {
+  console.log(contentType);
+  
+  return instance.post(url, data,contentType);
 };
 const del = (url: string, params?: any): Promise<AxiosResponse<any>> => {
   return instance.delete(url, { params });

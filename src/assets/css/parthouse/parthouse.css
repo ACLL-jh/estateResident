@@ -14,10 +14,8 @@
     margin-top: 20px;
     font-size: 14px;
   }
-      th {
-        padding: 10px 0px;
-        text-align: center;
-        color: #909399;
-        font-weight: bold;
-      }
+  .ant-table-cell{
+    color: #909399;
+    font-weight: bold;
+  }
 

@@ -83,10 +83,6 @@ Button {
 .ant-table-cell {
   width: 300px;
 }
-td {
-  text-align: center;
-  padding: 10px, 0px;
-}
 .tabbtns {
   margin: 0, auto;
   display: flex;

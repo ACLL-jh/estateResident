@@ -8,7 +8,6 @@ const Gethouseid:FC<any>=(props:any):JSX.Element=> {
   const [pagesize,setpagesize] = useState(1);
   const [pagenum,setpagenum] = useState(5);
   const [counts,setcounts] = useState();
-
   const [houseids,sethouseids] = useState<any>()
   const houseidsOk = ()=>{
     props.isModalCloce(false)
@@ -44,20 +43,24 @@ const Gethouseid:FC<any>=(props:any):JSX.Element=> {
     }),
     
   };
-  const columns = [
+  const columns:any = [
     {
       title: '楼号',
       dataIndex: 'building',
+      align:'center'
     },
     {
       title:'房间号',
-      dataIndex:'houseno'
+      dataIndex:'houseno',
+      align:'center'
     },
     {
       title:'业主',
+      align:'center'
     },
     {
       title:'电话',
+      align:'center'
     },
   ]
   useEffect(()=>{
@@ -95,7 +98,6 @@ const Gethouseid:FC<any>=(props:any):JSX.Element=> {
               </Form.Item>
             </Form>
           </div>
-          <div className='tabbox'>
             <Table
             rowSelection={{
               ...rowSelection,
@@ -105,7 +107,6 @@ const Gethouseid:FC<any>=(props:any):JSX.Element=> {
             columns={columns}
             dataSource={listarr}/>
           </div>
-        </div>
       </Modal>
     </div>
   )

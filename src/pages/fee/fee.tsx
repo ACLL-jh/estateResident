@@ -165,7 +165,7 @@ const Fee: FC = (): JSX.Element => {
             okText="确认"
             cancelText="取消"
           >
-            <Button type="primary" className="delbtn">
+            <Button type="primary" danger className="delbtn">
               删除
             </Button>
           </Popconfirm>
@@ -289,7 +289,7 @@ const Fee: FC = (): JSX.Element => {
             {
               label: `未缴费`,
               key: '2',
-              children: <h1>666</h1>,
+              children: <h1>第二页面</h1>,
             },
           ]}
         />

@@ -9,11 +9,13 @@ import ImgCrop from 'antd-img-crop';
 import {repairsup,building} from '../../apis/repairs/repairs'
 const { Option } = Select
 const comindex:number =1;
+const headers:any = {Authorization:sessionStorage.getItem('token')}
 const Chome: React.FC<any> = ({ title,state,close }) => {
   const [from] =Form.useForm()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [build,setbuild] =useState<any>([])
   const [newbuild,setnew]=useState<any>([])
+  
   interface Option {
     value: string;
     label: string;
@@ -27,7 +29,10 @@ const Chome: React.FC<any> = ({ title,state,close }) => {
     const params=from.getFieldsValue()
     params['id']=user.id
     params.address=newbuild.join('')
+    console.log(params);
     const res=await repairsup(params)
+    console.log(res);
+    
     close()
   };
   const handleCancel = () => {        
@@ -36,10 +41,14 @@ const Chome: React.FC<any> = ({ title,state,close }) => {
   };
   // 接取共享
   const {user,stype,repairst}=useContext<any>(Context)
+  const [imgs,setimgs] = useState<any>([])
+  console.log(user);
+  
   useEffect(()=>{
     select()
     user.address=''
     from.setFieldsValue(user)
+    setimgs(user.images)
   },[])
   // 表单验证
     const validateMessages = {
@@ -54,14 +63,10 @@ const Chome: React.FC<any> = ({ title,state,close }) => {
   };  
   // 图片上传
   const [fileList, setFileList] = useState<UploadFile[]>([
-    // {
-    //   uid: '1',
-    //   name: 'image.png',
-    //   status: 'done',
-    //   url: 'http://estate.eshareedu.cn/estate/upload/'+user.images[0].url,
-    // },
   ]);
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    const imgs:any = fileList.map((item:any) => ({url:item.response.data}))
+    console.log(fileList,imgs);
     setFileList(newFileList);
   };
   const onPreview = async (file: UploadFile) => {
@@ -130,6 +135,7 @@ const Chome: React.FC<any> = ({ title,state,close }) => {
         <Form.Item name={[ 'tel']} label=" 电 话 " rules={[{ required: true }]}  >
           <Input  />
         </Form.Item>
+       
         <Form.Item name={[ 'state']} label="故障状态">
         <Select placeholder="请选择">
               {
@@ -144,12 +150,21 @@ const Chome: React.FC<any> = ({ title,state,close }) => {
         <Form.Item name={[ 'content']} label="故障描述" rules={[{ required: true }]}>
         <Input.TextArea  style={{width:'230px'}} />
         </Form.Item>
-        <Form.Item name={[ 'images']} label="故障描述" rules={[{ required: true }]}>
+        <Form.Item name={[ 'img']} label=" 图片 " rules={[{ required: true }]}  >
+          {
+            imgs.map((item:any)=>(
+              <img src={'http://estate.eshareedu.cn/estate/upload/'+ item.url} alt=""  style={{width:'50px',height:'50px',marginLeft:'5px'}}/>
+            ))
+          }
+          
+        </Form.Item>
+        <Form.Item name={[ 'images']} label="上传图片" rules={[{ required: true }]}>
           <ImgCrop rotate>
             <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              action="http://estate.eshareedu.cn/estate/api/upload/add"
               listType="picture-card"
               fileList={fileList}
+              headers={headers}
               onChange={onChange}
               onPreview={onPreview}
             >

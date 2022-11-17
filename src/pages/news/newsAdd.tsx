@@ -52,7 +52,7 @@ const NewsAdd = (porps: any) => {
     autoFocus: false,
     MENU_CONF: {
       uploadImage: {
-        // 单个文件的最大体积限制，默认为 2M
+        // 单个文件的最大体积限制，默认为 2M  
         maxFileSize: 4 * 1024 * 1024, // 4M
         // 最多可上传几个文件，默认为 100
         maxNumberOfFiles: 10,

@@ -29,7 +29,7 @@ const StoresUpload = (props:any) => {
   useEffect(()=>{
     console.log(props.img);
     
-    if (props.img) {
+    if (props.imgwq) {
       seuUrl('http://estate.eshareedu.cn/estate/upload/'+props.img)
     }
   },[props.img])

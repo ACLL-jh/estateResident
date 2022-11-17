@@ -4,9 +4,7 @@ import './../../assets/css/home/home.css';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { Breadcrumb, Layout, Menu, Modal, Steps, Image } from 'antd';
 const QusetLog: React.FC<any> = (props: any) => {
-  /*   const getList = async() => {
-    const res:any = await  
-  }; */ console.log(props);
+  console.log(props);
 
   useEffect(() => {
     document
@@ -42,6 +40,7 @@ const QusetLog: React.FC<any> = (props: any) => {
         </div>
         <div>问题描述: {props.modelO.content}</div>
       </div>
+      
       <div className="Modelimg">
         {props.modelO.images.map((item: any) => (
           <div key={item.id}>

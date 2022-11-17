@@ -139,8 +139,8 @@ const Feesadd: FC<any> = (props): JSX.Element => {
   // 添加
   const add = async () => {
     const res: any = await FeeAdd(adddata);
-    console.log(adddata);
-    console.log(res);
+    // console.log(adddata);
+    // console.log(res);
     if (res.errCode === 10000) {
       props.getvalue(false);
       props.isrefresh(true);
@@ -190,7 +190,7 @@ const Feesadd: FC<any> = (props): JSX.Element => {
   useEffect(() => {
     buildingListlist();
     Feetypelist();
-  }, [buildingListlist,Feetypelist]);
+  }, []);
   return (
     <div className="app">
       <Modal

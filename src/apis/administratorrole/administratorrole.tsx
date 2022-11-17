@@ -7,5 +7,9 @@ const rolelist = (data: any) => {
 const roledelete = (data: any) => {
   return get('administratorrole/delete', data);
 };
+//角色添加
+const roleadd = (data: any) => {
+  return get('administratorrole/add', data);
+};
 
-export {rolelist,roledelete};
+export {rolelist,roledelete,roleadd};

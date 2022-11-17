@@ -4,7 +4,7 @@ import './../../assets/css/home/home.css';
 import type { ColumnsType } from 'antd/es/table';
 import { list, staffdelete, taffdele, stafftlist } from '../../apis/staff/staff'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { delte } from '../../apis/userinfo/userinfo';
+// import { delte } from '../../apis/userinfo/userinfo';
 import OfficeAdd from '../../components/statssadd/statssadd'
 // import 
 interface DataType {

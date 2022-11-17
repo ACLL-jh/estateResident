@@ -19,7 +19,7 @@ const QusetLog: React.FC<any> = (props: any) => {
       .forEach((item: any) => {
         item.innerText = '';
       });
-  }, []);
+  }, []); 
   console.log(props.modelO);
 
   const [current, setCurrent] = useState<number>(props.modelO.state);

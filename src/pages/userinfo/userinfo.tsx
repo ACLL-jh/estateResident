@@ -1,297 +1,295 @@
-import React, { useEffect, useState } from 'react';
-import { Cascader, message, } from 'antd';
-import { Form, Input, Radio } from 'antd';
-import { Select } from 'antd';
-import { Button, Table } from 'antd';
+import React, { useEffect, useState } from "react";
+// import '../../assets/css/Userinfo/Userinfo.css'
 import type { ColumnsType } from 'antd/es/table';
-import './../../assets/css/home/home.css';
-import Add from '../../components/userifoadd/add'
-import { Modal, Space } from 'antd';
-import { list, delte, rowdel, buildinglist } from '../../apis/userinfo/userinfo'
+import { Button, Form, Input, Cascader, Select, Table, Space, Modal } from 'antd';
+import { userinfoList, userinfoDelete, userinfotypeList, buildingList, userinfoDeleteall } from '../../apis/userinfo/userinfo'
+import UserinfoAdd from "../../components/userifoadd/adduserifo";
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-const Home: React.FC = () => {
-  // 弹框
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [loading, setLoading] = useState(false);
+const Userinfo = () => {
+  useEffect(() => {
+    // 列表
+    list()
+    // 用户类型
+    utypeList()
+    // 楼栋
+    builList()
+  }, [])
+  const onFinish = (values: any) => {
+    console.log('Success:', values);
+  };
 
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
   const onChange = (value: any) => {
-    console.log(value);
+    // console.log(value);
+    buildingVals(value);
   };
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
-  };
-
-
-  interface DataType {
-    key: React.Key;
-    name: string;
-    age: number;
-    address: string;
-  }
-
-  const columns: ColumnsType<DataType> = [
+  // interface Option {
+  //   value: string | number;
+  //   label: string;
+  //   children?: Option[];
+  // }
+  // 用户类型
+  const [opt, optionss] = useState([])
+  //   练级选择器
+  const [opts, optss] = useState([])
+  const [buildingVal, buildingVals] = useState([])
+  //   表格
+  const columns: any = [
     {
       title: 'id',
-      align: 'center',
-
       dataIndex: 'id',
+      align: "center"
     },
     {
       title: '头像',
-      align: 'center',
       dataIndex: 'photo',
-      render: (photo, id) =>
-        <div>
-          {/* 三元判断 */}
-          {
-            photo ? <img src={"http://www.eshareedu.cn/estate/upload/" + photo} alt="" style={{ width: '50px', height: '50px' }} /> : ''
-          }
-
+      render: (photo: any) => (
+        <div style={{ width: "80px", height: "80px" }}>
+          <img style={{ width: "80%", height: "80%", borderRadius: "5px" }} src={'http://www.eshareedu.cn/estate/upload/' + photo} alt="" />
         </div>
+      ),
+      align: "center"
     },
     {
       title: '姓名',
-      align: 'center',
-
       dataIndex: 'name',
+      align: "center"
     },
     {
       title: '业主类型',
-      align: 'center',
       dataIndex: 'usertypeName',
+      align: "center"
     },
     {
       title: '性别',
-      align: 'center',
-      dataIndex: 'usertypeName',
-      render: (usertypeName) => {
-        // 使用三元表达式进行判断
+      dataIndex: 'sex',
+      align: "center",
+      render: (sex: any) => {
         return (
-          usertypeName == 0 ? '男' : '女'
+          sex === 0 ? '男' : '女'
         )
       }
     },
     {
       title: '身份证号',
-      align: 'center',
       dataIndex: 'cardid',
+      align: "center"
     },
     {
-      title: '手机号',
-      align: 'center',
-      dataIndex: 'usertypeName',
+      title: '手机',
+      dataIndex: 'mobile',
+      align: "center"
     },
     {
       title: '籍贯',
-      align: 'center',
       dataIndex: 'usernative',
+      align: "center"
     },
     {
       title: '民族',
-      align: 'center',
       dataIndex: 'nation',
+      align: "center"
     },
     {
       title: '小区',
-      align: 'center',
       dataIndex: 'building',
+      align: "center"
     },
     {
       title: '房间号',
-      align: 'center',
       dataIndex: 'houseno',
+      align: "center"
     },
     {
       title: '审核状态',
-      align: 'center',
       dataIndex: 'stateName',
+      align: "center"
     },
     {
       title: '操作',
-      align: 'center',
-      dataIndex: '',
-      render: (id) =>
-        <div>
-          <Button type="primary" style={{ backgroundColor: "#67c23a", borderColor: "#67c23a" }}>
-            修改
-            </Button>
-          <Button type="primary" danger style={{ marginLeft: "10px" }} onClick={dete(id)}>
-            删除
-            </Button>
-        </div>
-
-
+      render: (record: any) => (
+        <Space>
+          <Button onClick={amends(record)} style={{ backgroundColor: "#67c23a", color: "#ffffff" }}>修改</Button>
+          <Button onClick={del(record.id)} type="primary" danger>删除</Button>
+        </Space>
+      ),
+      align: "center"
     },
   ];
-
   const [data, setData] = useState([])
-
-  const start = () => {
-    setLoading(true);
-    // ajax request after empty completing
-    setTimeout(() => {
-      setSelectedRowKeys([]);
-      setLoading(false);
-    }, 1000);
-  };
-
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
-
+  const [ids, setids]: any = useState([])
   const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
+    onChange: (selectedRowKeys: React.Key[]) => {
+      console.log(selectedRowKeys);
+      setids(selectedRowKeys)
+    }
   };
-  const hasSelected = selectedRowKeys.length > 0;
-  // 调用列表接口
-  const userlist = async () => {
-    const res: any = await list({})
+  const [lists, setlists] = useState([])
+  // 列表
+  const list = async () => {
+    const res: any = await userinfoList({})
     console.log(res);
-    if (res.errCode === 10000) {
-      setData(res.data.list)
+    if (res.errCode == 10000) {
+      setlists(res.data.list)
     }
   }
-  useEffect(() => {
-    userlist()
-    buillist()
-  }, [])
-  // 批量删除
-  // async的意思就是将异步转化为同步
-  const { confirm } = Modal;
-  const del = async () => {
-    confirm({
-      title: '警告',
-      icon: <ExclamationCircleOutlined />,
-      content: '确认要删除这些数据嘛？',
-      okText: '确定',
-      okType: 'danger',
-      cancelText: '取消',
-      async onOk() {
-        const res: any = await delte({
-          ids: selectedRowKeys
-        })
-        if (res.errCode === 10000) {
-          console.log(res);
-        }
-        message.success('删除成功');
-        userlist()
-      },
-    });
-  }
+  const [setOpen, setOpens] = useState(false)
   // 删除
-  const dete = (listid: any) => {
-    return async () => {
-
-      console.log(listid);
-      const res = await rowdel({ id: listid.id })
-      console.log(res);
+  const { confirm } = Modal;
+  const del: any = (id: any) => {
+    return () => {
+      confirm({
+        title: '',
+        icon: <ExclamationCircleOutlined />,
+        content: '此操作将会永久删除此数据  确定删除吗',
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk() {
+          console.log('OK');
+          yesDel(id)
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
     }
-  }
-  // userlist()
-
-
-  // 弹框
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-
   };
-
-  const handleOk = () => {
-
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-  const [opacity, setopacity] = useState([])
-  // 列表的级联选择器
-  const buillist = async () => {
-    const res: any = await buildinglist({})
+  const yesDel: any = async (id: any) => {
+    console.log(id);
+    const res: any = await userinfoDelete({ id })
     console.log(res);
     if (res.errCode === 10000) {
-      setopacity(res.data.list)
+      list()
     }
-
   }
+  const utypeList = async () => {
+    const res: any = await userinfotypeList({})
+    // console.log(res);
+    if (res.errCode === 10000) {
+      optionss(res.data.list)
+    }
+  }
+  const builList = async () => {
+    const res: any = await buildingList({})
+    // console.log(res);
+    if (res.errCode === 10000) {
+      optss(res.data.list)
+    }
+  }
+  // 接受子组件传过来的值
+  const yes = (e: any) => {
+    setOpens(e)
+    list()
+  }
+  // 批删
+  const dels = async () => {
+    console.log(ids);
+    const res: any = await userinfoDeleteall({
+      ids: ids
+    })
+    console.log(res);
+    if (res.errCode === 10000) {
+      list()
+    }
+  }
+  const userinfoAdds = () => { }
+  // 修改
+  const [id, idd] = useState<any>()
+  const [row, rows] = useState([])
+  const amends: any = (record: any) => {
+    return () => {
+      idd(record.id)
+      setOpens(true)
+      rows(record)
+    }
+  }
+  // 添加
+  const add = () => {
+    idd(0)
+    setOpens(true)
+    rows([])
+  }
+  // 查询
+
   return (
     <div>
-      <div>
-        <div style={{ color: "#427ff4" }}>居民管理</div>
-        <Form
-          style={{ marginTop: "20px" }}
-          layout={"inline"}
+      <div className="top">居民 管理</div>
+      <Form
+        name="basic"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+        layout="inline"
+        style={{ margin: "20px 0px 0px 0px" }}
+      >
+        <Form.Item
+          label="楼栋ID:"
         >
-          <Form.Item label="楼栋id:">
-            <Cascader options={opacity} style={{ width: "200px" }} onChange={onChange} fieldNames={{ label: 'name', value: 'id', children: 'children' }} placeholder="请选择" />
-          </Form.Item>
-          <Form.Item label="姓名">
-            <Input placeholder="居民姓名" />
-          </Form.Item>
-          <Form.Item label="电话">
-            <Input placeholder="居民电话" />
-          </Form.Item>
-          <Form.Item label="房间号">
-            <Input placeholder="房间号" />
-          </Form.Item>
-          <>
-            <Form.Item label="房间号">
-              <Select
-                defaultValue="请选择"
-                style={{ width: 120 }}
-                onChange={handleChange}
-                options={[
-                  {
-                    value: '业主',
-                    label: '业主',
-                  },
-                  {
-                    value: '租户',
-                    label: '租户',
-                  },
-
-                ]}
-              />
-            </Form.Item>
-
-          </>
-          <Form.Item>
-            <Button type="primary">
-              查询
-            </Button>
-          </Form.Item><br />
-          <Form.Item>
-            <Add></Add>
-            {/* <Button type="primary" onClick={showModal}>
-              添加
-            </Button> */}
-            {/* <Modal title="添加居民" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={700}>
-              <Userifoadd></Userifoadd>
-            </Modal> */}
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" danger onClick={del}>
-              批量删除
-            </Button>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" style={{ backgroundColor: "#67c23a", borderColor: "#67c23a" }}>
-              批量审核
-            </Button>
-          </Form.Item>
-
-          <div>
-          </div>
-        </Form>
-        <Table rowKey={'id'} rowSelection={rowSelection} columns={columns} dataSource={data} />
-
+          <Cascader style={{ width: '180px' }} options={opts} fieldNames={{ label: 'name', value: 'id', children: 'children' }} onChange={onChange} placeholder="请选择" />
+        </Form.Item>
+        <Form.Item
+          label="姓名"
+          name="username"
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="电话"
+          name="password"
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="房间号"
+          name="room"
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="用户类型"
+        >
+          <Select
+            placeholder="请选择"
+            style={{ width: 120 }}
+            allowClear
+            options={opt.map((item: any) => (
+              {
+                label: item.name,
+                value: item.id
+              }
+            ))}
+          />
+        </Form.Item>
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Button type="primary" htmlType="submit">
+            查询
+                </Button>
+        </Form.Item>
+      </Form>
+      <div className="btn" style={{ marginTop: '20px' }}>
+        <Button onClick={add} type="primary">添加</Button>
+        <Button onClick={dels} style={{ margin: "0px 10px", }} type="primary" danger>批量删除</Button>
+        <Button style={{ backgroundColor: "#67c23a", color: "#ffffff" }}>批量审核</Button>
       </div>
-
+      <Table
+        rowKey={'id'}
+        columns={columns}
+        rowSelection={{
+          ...rowSelection,
+        }}
+        dataSource={lists}
+      />
+      {
+        setOpen &&
+        <UserinfoAdd aaaa={setOpen} yess={yes} add={userinfoAdds} id={id} row={row}></UserinfoAdd>
+      }
     </div>
-  );
-};
-export default Home;
+  )
+}
+export default Userinfo;

@@ -1,26 +1,38 @@
-import { get, post } from '../../utils/requerst';
-const list = (data: any) => {
-  return get('userinfo/list', data);
-};
-const delte = (data: any) => {
-  return post('userinfo/deleteall', data)
+import {get, post,del,put} from "../../utils/requerst";
+// 居民列表接口
+const userinfoList = (params:any)=>{
+  return post("userinfo/list",params)
 }
-const rowdel = (data: any) => {
-  return get('userinfo/delete', data)
+// 删除居民
+const userinfoDelete = (params:any) =>{
+  return get ("userinfo/delete",params)
 }
-// 添加接口
-const userinfoadd = (data: any) => {
-  return post('userinfo/add', data)
+// 获取居民类型
+const userinfotypeList = (params:any) =>{
+  return get ("userinfotype/list",params)
 }
-// 级联选择器接口
-const buildinglist = (data: any) => {
-  return get('building/list', data)
+// 添加居民
+const userinfoAdd = (params:any) =>{
+  return post ("userinfo/add",params)
 }
-// 住户类型接口
-const userlist = (data:any)=>{
-  return get('userinfotype/list',data)
+// 获取楼栋
+const buildingList = (params:any) =>{
+  return get ("building/list",params)
 }
-const houseslist = (data:any) =>{
-  return get('houses/list',data)
+// 根据楼栋获取房间列表
+const housesList = (params:any) => {
+  return get ("houses/list",params)
 }
-export { list, delte, rowdel, userinfoadd, buildinglist,userlist,houseslist };
+// 居民批删
+const userinfoDeleteall = (params:any) => {
+  return post ("userinfo/deleteall",params)
+}
+export {
+    userinfoList,
+    userinfoDelete,
+    userinfotypeList,
+    userinfoAdd,
+    buildingList,
+    housesList,
+    userinfoDeleteall
+}

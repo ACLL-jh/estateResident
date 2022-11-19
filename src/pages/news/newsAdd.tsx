@@ -29,7 +29,7 @@ const PickerWithType = ({
 };
 
 // 函数表达式
-const NewsAdd = (porps: any) => {
+const NewsAdd = (porps: any) => {  
   const [params] = useSearchParams()
   const [froms] = Form.useForm();
   const route = useNavigate()
@@ -38,10 +38,8 @@ const NewsAdd = (porps: any) => {
   // editor 实例
   const [editor, setEditor] = useState<IDomEditor | null>(null); // TS 语法
   // JS 语法
-
   // 编辑器内容
   const [html, setHtml] = useState('');
-
   // 模拟 ajax 请求，异步设置 html
   const [imageUrl, seuImageUrl] = useState<any>('');
   // 工具栏配置
@@ -70,13 +68,11 @@ const NewsAdd = (porps: any) => {
   };
   const lista = async () => {
     const res: any = await listac({ id: params.get("id") });
-    console.log(res);
     setHtml(res.data.content)
     setimg(res.data.picture)
     console.log(res.data);
     setrado(res.data.state)
     froms.setFieldsValue(res.data)
-
   };
   // 及时销毁 editor ，重要！
   useEffect(() => {
@@ -94,7 +90,6 @@ const NewsAdd = (porps: any) => {
   useEffect(() => {
     storeservicesList();
   }, [porps.def]);
-
   let arr = [];
   // 确定添加
   const [id, seuId] = useState<number>(0);
@@ -108,7 +103,6 @@ const NewsAdd = (porps: any) => {
     arr.addtime = moment().format('YYYY-MM-DD HH:mm:ss')
     arr.picture = imageUrl
     arr.content = html
-    
     console.log(arr);
     const res: any = await newadd(arr);
     if (res.errCode === 10000) {
@@ -142,6 +136,8 @@ const NewsAdd = (porps: any) => {
   // 子组件传值
 
   const getImageUrl: any = (imageUrl: any) => {
+    console.log(imageUrl);
+    
     seuImageUrl(imageUrl);
   };
   const [imgUrl, seuimgUrl] = useState<any>('');
@@ -201,7 +197,8 @@ const NewsAdd = (porps: any) => {
                 defaultConfig={editorConfig}
                 value={html}
                 onCreated={setEditor}
-                onChange={editor => setHtml(editor.getHtml())}
+                onChange={editor => console.log(setHtml(editor.getHtml()))
+                }
                 mode="default"
                 style={{ height: '400px', overflowY: 'hidden' }}
               />

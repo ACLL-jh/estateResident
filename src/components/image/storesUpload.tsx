@@ -27,9 +27,7 @@ const StoresUpload = (props:any) => {
   const [imageUrl, setImageUrl] = useState<string>();
   const [url,seuUrl] = useState<string>()
   useEffect(()=>{
-    console.log(props.img);
-    
-    if (props.imgwq) {
+    if (props.img) {
       seuUrl('http://estate.eshareedu.cn/estate/upload/'+props.img)
     }
   },[props.img])
@@ -47,6 +45,7 @@ const StoresUpload = (props:any) => {
         setLoading(false);
         setImageUrl(info.file.response.data);
         seuUrl(url)
+        props.getImageUrl(info.file.response.data)
       });
     }
   };
